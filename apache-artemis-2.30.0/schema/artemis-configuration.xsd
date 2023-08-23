@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="urn:activemq:core"
+            targetNamespace="urn:activemq:core"
+            attributeFormDefault="unqualified"
+            elementFormDefault="qualified"
+            version="1.0">
+
+   <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+
+   <xsd:element name="core" type="configurationType"/>
+
+   <xsd:complexType name="configurationType">
+      <xsd:all>
+         <xsd:element name="name" type="xsd:string" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  Node name. If set, it will be used in topology notifications.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="system-property-prefix" type="xsd:string" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  This defines the prefix which we will use to parse System properties for the configuration. Default=
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="internal-naming-prefix" type="xsd:string" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  Artemis uses internal queues and addresses for implementing certain behaviours.  These queues and addresses
+                  will be prefixed by default with "$.activemq.internal" to avoid naming clashes with user namespacing.
+                  This can be overridden by setting this value to a valid Artemis address.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="amqp-use-core-subscription-naming" type="xsd:boolean" maxOccurs="1" minOccurs="0" default="false">
+            <xsd:annotation>
+               <xsd:documentation>
+                  This enables making AMQP subscription queue names, match core queue names, for better interoperability between protocols.
+                  Note: Enabling this to an existing broker if pre-existing amqp durable subscriptions already existed will require
+                  clients to re-subscribe and to clean up old subscription names.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="resolve-protocols" type="xsd:boolean" default="true" maxOccurs="1"
+                      minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  If true then the ActiveMQ Artemis Server will make use of any Protocol Managers that are in available
+                  on the classpath. If false then only the core protocol will be available, unless in Embedded mode
+                  where users can inject their own Protocol Managers.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="journal-datasync" type="xsd:boolean" default="true" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  that means the server will use fdatasync to confirm writes on the disk.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="persistence-enabled" type="xsd:boolean" default="true" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  true means that the server will use the file based journal for persistence.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="scheduled-thread-pool-max-size" type="xsd:int" default="5" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  Maximum number of threads to use for the scheduled thread pool
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="thread-pool-max-size" type="xsd:int" default="30" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  Maximum number of threads to use for the thread pool. -1 means 'no limits'.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="graceful-shutdown-enabled" type="xsd:boolean" default="false" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  true means that graceful shutdown is enabled
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="graceful-shutdown-timeout" type="xsd:long" default="-1" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  how long (in ms) to wait for clients to disconnect before shutting down the server
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="security-enabled" type="xsd:boolean" default="true" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  true means that security is enabled
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="security-invalidation-interval" type="xsd:long" default="10000" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  how long (in ms) to wait before invalidating an entry in the authentication or authorization cache
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="authentication-cache-size" type="xsd:long" default="1000" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  how large to make the authentication cache
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="authorization-cache-size" type="xsd:long" default="1000" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  how large to make the authorization cache
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="journal-lock-acquisition-timeout" type="xsd:long" default="-1" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  how long (in ms) to wait to acquire a file lock on the journal
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="wild-card-routing-enabled" type="xsd:boolean" default="true" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  true means that the server supports wild card routing
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="management-address" type="xsd:string" default="jms.queue.activemq.management" maxOccurs="1"
+                      minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  the name of the management address to send management messages to. It is prefixed with "jms.queue" so
+                  that JMS clients can send messages to it.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="management-notification-address" type="xsd:string" default="activemq.notifications"
+                      maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  the name of the address that consumers bind to receive management notifications
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="cluster-user" type="xsd:string" default="ACTIVEMQ.CLUSTER.ADMIN.USER" maxOccurs="1"
+                      minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  Cluster username. It applies to all cluster configurations.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="cluster-password" maxOccurs="1" minOccurs="0" type="xsd:string" default="CHANGE ME!!">
+            <xsd:annotation>
+               <xsd:documentation>
+                  Cluster password. It applies to all cluster configurations.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="password-codec" type="xsd:string"
+                      default="org.apache.activemq.artemis.utils.DefaultSensitiveStringCodec" maxOccurs="1"
+                      minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  Class name and its parameters for the Decoder used to decode the masked password. Ignored if
+                  mask-password is false. The format of this property is a full qualified class name optionally followed
+                  by key/value pairs.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="mask-password" type="xsd:boolean" default="false" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  This option controls whether passwords in server configuration need be masked. If set to "true" the
+                  passwords are masked.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="log-delegate-factory-class-name" type="xsd:string" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  DEPRECATED: the name of the factory class to use for log delegation
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="jmx-management-enabled" type="xsd:boolean" default="true" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  true means that the management API is available via JMX
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="jmx-domain" type="xsd:string" default="org.apache.activemq" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  the JMX domain used to registered ActiveMQ Artemis MBeans in the MBeanServer
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="jmx-use-broker-name" type="xsd:boolean" default="true" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  Whether or not to use the broker name in the JMX properties
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="message-counter-enabled" type="xsd:boolean" default="false" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  true means that message counters are enabled
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="message-counter-sample-period" type="xsd:long" default="10000" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  the sample period (in ms) to use for message counters
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="message-counter-max-day-history" type="xsd:int" default="10" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  how many days to keep message counter history
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="connection-ttl-override" type="xsd:long" default="-1" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  if set, this will override how long (in ms) to keep a connection alive without receiving a ping. -1
+                  disables this setting.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="connection-ttl-check-interval" type="xsd:long" default="2000" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  how often (in ms) to check connections for ttl violation
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="configuration-file-refresh-period" type="xsd:long" default="5000" maxOccurs="1"
+                      minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  how often (in ms) to check the configuration file for modifications
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="temporary-queue-namespace" type="xsd:string" default="" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  the namespace to use for looking up address settings for temporary queues
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="async-connection-execution-enabled" type="xsd:boolean" default="true" maxOccurs="1"
+                      minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  should certain incoming packets on the server be handed off to a thread from the thread pool for
+                  processing or should they be handled on the remoting thread?
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="transaction-timeout" type="xsd:long" default="300000" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  how long (in ms) before a transaction can be removed from the resource manager after create time
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="transaction-timeout-scan-period" type="xsd:long" default="1000" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  how often (in ms) to scan for timeout transactions
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="message-expiry-scan-period" type="xsd:long" default="30000" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+                  how often (in ms) to scan for expired messages
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+
+         <xsd:element name="message-expiry-thread-priority" type="xsd:int" default="3" maxOccurs="1" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>
+     

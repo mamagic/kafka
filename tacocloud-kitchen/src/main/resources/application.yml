@@ -3,24 +3,28 @@ server:
 
 ---
 spring:
-  profiles: jms-template, jms-listener
-# The values given here are actually the default values. But they are explicitly
-# set here as an example of setting the Artemis properties.
+  config:
+    activate:
+      on-profile: jms-template, jms-listener
+
   jms:
     template:
+      default-destination: tacocloud.order.queue
       receive-timeout: 2
+    cache:
+      enabled: false
   artemis:
-    host: localhost
-    port: 61616
-    user: tacoweb
-    password: letm31n
+    broker-url: localhost:61616
+    user: ryu 
+    password: 1234 
     embedded:
       enabled: false
-    
 ---
 spring:
-  profiles: kafka-listener
-    
+  config:
+    activate:
+      on-profile: kafka
+
   kafka:
     bootstrap-servers:
     - localhost:9092
@@ -31,8 +35,3 @@ spring:
       group-id: tacocloud_kitchen
       properties:
         spring.json.trusted.packages: tacos
-      
-      
-      
-      
-      

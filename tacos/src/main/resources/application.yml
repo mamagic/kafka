@@ -146,17 +146,3 @@ spring:
     producer:
       keySerializer: org.springframework.kafka.support.serializer.JsonSerializer
       valueSerializer: org.springframework.kafka.support.serializer.JsonSerializer
-
----
-spring:
-  profiles: prod
-  
-  datasource:
-    url: jdbc:mysql://localhost/tacocloud
-    username: tacouser
-    password: tacopassword
-    
-logging:
-  level:
-    tacos: WARN
-    

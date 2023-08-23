@@ -20,6 +20,8 @@ public class OrderReceiverController {
   @GetMapping("/receive")
   public String receiveOrder(Model model) {
     Order order = orderReceiver.receiveOrder();
+    System.out.println("=============order==============");    
+    System.out.println("order" + order.getDeliveryCity());
     if (order != null) {
       model.addAttribute("order", order);
       return "receiveOrder";
